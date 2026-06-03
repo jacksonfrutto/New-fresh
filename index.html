@@ -78,6 +78,8 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border-left: 5px solid #667eea;
+            display: flex;
+            flex-direction: column;
         }
         
         .fruit-card:hover {
@@ -108,6 +110,14 @@
             color: #666;
             margin-bottom: 1rem;
             font-size: 0.95rem;
+            flex-grow: 1;
+        }
+        
+        .fruit-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
         }
         
         .stock-status {
@@ -126,6 +136,29 @@
         .out-of-stock {
             background: #f8d7da;
             color: #721c24;
+        }
+        
+        .order-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            white-space: nowrap;
+        }
+        
+        .order-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .order-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         
         .loading {
@@ -158,6 +191,11 @@
             
             .fruits-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .fruit-footer {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
@@ -231,10 +269,21 @@
                 <div class="fruit-name">${fruit.name}</div>
                 <div class="fruit-price">${fruit.price}</div>
                 <div class="fruit-description">${fruit.description}</div>
-                <span class="stock-status ${stockClass}">${stockText}</span>
+                <div class="fruit-footer">
+                    <span class="stock-status ${stockClass}">${stockText}</span>
+                    <button class="order-btn" ${!fruit.inStock ? 'disabled' : ''} onclick="handleOrder('${fruit.name}')">
+                        Order
+                    </button>
+                </div>
             `;
             
             return card;
+        }
+        
+        // Handle order button click
+        function handleOrder(fruitName) {
+            alert(`Order placed for ${fruitName}! 🛒`);
+            // Add your order handling logic here
         }
         
         // Load fruits when page loads
