@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - FRUTTO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #faf6ee;
+            --dark: #1a1208;
+            --orange: #e8621a;
+            --green: #2d6a2f;
+            --yellow: #f5c842;
+            --success: #27ae60;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--green) 0%, var(--orange) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .success-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            color: var(--success);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .order-details {
+            background: var(--cream);
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: #6b5c3e;
+        }
+
+        .detail-value {
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        .next-steps {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .next-steps h3 {
+            color: #1976D2;
+            margin-bottom: 1rem;
+        }
+
+        .next-steps ol {
+            margin-left: 1.5rem;
+        }
+
+        .next-steps li {
+            margin-bottom: 0.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        button, a {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--orange);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #d4531a;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--orange);
+            border: 2px solid var(--orange);
+        }
+
+        .btn-secondary:hover {
+            background: var(--cream);
+        }
+
+        .payment-status {
+            background: #fff3cd;
+            border-left: 4px solid var(--yellow);
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+
+        .payment-status.completed {
+            background: #d4edda;
+            border-left-color: var(--success);
+        }
+
+        @media (max-width: 600px) {
+            .success-card {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button, a {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🍎 FRUTTO - Order Confirmation</h1>
+    </header>
+
+    <div class="container">
+        <div class="success-card">
+            <div class="success-icon">✅</div>
+            <h1>Order Confirmed!</h1>
+            <p class="subtitle">Thank you for your order. Your fresh fruits will be delivered soon!</p>
+
+            <div class="order-details" id="orderDetails">
+                <div class="detail-row">
+                    <span class="detail-label">Order ID:</span>
+                    <span class="detail-value" id="orderId">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Customer Name:</span>
+                    <span class="detail-value" id="customerName">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Email:</span>
+                    <span class="detail-value" id="customerEmail">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Phone:</span>
+                    <span class="detail-value" id="customerPhone">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Payment Method:</span>
+                    <span class="detail-value" id="paymentMethod">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Total Amount:</span>
+                    <span class="detail-value" id="totalAmount">-</span>
+                </div>
+            </div>
+
+            <div class="payment-status" id="paymentStatus">
+                <strong>⏳ Awaiting Payment</strong><br>
+                Please complete the payment to confirm your order.
+            </div>
+
+            <div class="next-steps">
+                <h3>📋 What's Next?</h3>
+                <ol>
+                    <li>Complete payment using the method you selected</li>
+                    <li>You'll receive a confirmation email shortly</li>
+                    <li>Your order will be prepared and packed</li>
+                    <li>Delivery will be within 24 hours</li>
+                    <li>Track your order via email updates</li>
+                </ol>
+            </div>
+
+            <div class="button-group">
+                <a href="fruit-shop-1.html" class="btn-secondary">Continue Shopping</a>
+                <a href="index.html" class="btn-primary">Back to Home</a>
+            </div>
+
+            <p style="margin-top: 2rem; font-size: 0.9rem; color: #666;">
+                📧 A confirmation email has been sent to your email address.<br>
+                Questions? <a href="mailto:support@frutto.co.ke" style="color: var(--orange);">Contact Support</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:3000';
+
+        function getOrderIdFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('orderId');
+        }
+
+        async function loadOrderDetails() {
+            const orderId = getOrderIdFromURL();
+            
+            if (!orderId) {
+                document.getElementById('orderDetails').innerHTML = '<p style="color: red;">Order not found.</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/orders/${orderId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    const order = data.order;
+                    document.getElementById('orderId').textContent = order.orderId;
+                    document.getElementById('customerName').textContent = order.customerName;
+                    document.getElementById('customerEmail').textContent = order.customerEmail;
+                    document.getElementById('customerPhone').textContent = order.customerPhone;
+                    document.getElementById('paymentMethod').textContent = order.paymentMethod;
+                    document.getElementById('totalAmount').textContent = `KES ${order.totalAmount.toFixed(2)}`;
+
+                    if (order.paymentStatus === 'completed') {
+                        document.getElementById('paymentStatus').classList.add('completed');
+                        document.getElementById('paymentStatus').innerHTML = '<strong>✅ Payment Received</strong><br>Thank you! Your order is confirmed and will be prepared for delivery.';
+                    }
+                } else {
+                    document.getElementById('orderDetails').innerHTML = '<p style="color: red;">' + data.message + '</p>';
+                }
+            } catch (error) {
+                document.getElementById('orderDetails').innerHTML = '<p style="color: red;">Error loading order details: ' + error.message + '</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadOrderDetails);
+    </script>
+</body>
+</html>
