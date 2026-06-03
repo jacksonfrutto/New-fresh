@@ -1,0 +1,58 @@
+{
+  "fruits": [
+    {
+      "id": 1,
+      "name": "Apple",
+      "emoji": "🍎",
+      "color": "#FF6B6B",
+      "price": "$2.99",
+      "description": "Fresh red apples, crispy and sweet",
+      "inStock": true
+    },
+    {
+      "id": 2,
+      "name": "Banana",
+      "emoji": "🍌",
+      "color": "#FFD93D",
+      "price": "$1.99",
+      "description": "Ripe yellow bananas, perfect for smoothies",
+      "inStock": true
+    },
+    {
+      "id": 3,
+      "name": "Orange",
+      "emoji": "🍊",
+      "color": "#FFA500",
+      "price": "$3.49",
+      "description": "Juicy oranges, full of vitamin C",
+      "inStock": true
+    },
+    {
+      "id": 4,
+      "name": "Strawberry",
+      "emoji": "🍓",
+      "color": "#E74C3C",
+      "price": "$4.99",
+      "description": "Fresh strawberries, sweet and delicious",
+      "inStock": true
+    },
+    {
+      "id": 5,
+      "name": "Watermelon",
+      "emoji": "🍉",
+      "color": "#27AE60",
+      "price": "$5.99",
+      "description": "Refreshing watermelons, perfect for summer",
+      "inStock": false
+    },
+    {
+      "id": 6,
+      "name": "Grape",
+      "emoji": "🍇",
+      "color": "#8E44AD",
+      "price": "$3.99",
+      "description": "Fresh purple grapes, naturally sweet",
+      "inStock": true
+    }
+  ]
+}

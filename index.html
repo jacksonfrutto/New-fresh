@@ -15,6 +15,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
+            background: #f5f7fa;
         }
         
         header {
@@ -34,22 +35,112 @@
             opacity: 0.9;
         }
         
-        container {
-            max-width: 1000px;
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
         
         .welcome {
-            background: #f8f9fa;
+            background: white;
             padding: 2rem;
             border-radius: 8px;
             margin: 2rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .welcome h2 {
             color: #667eea;
             margin-bottom: 1rem;
+        }
+        
+        .fruits-section {
+            margin: 3rem 0;
+        }
+        
+        .fruits-section h2 {
+            color: #667eea;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+        
+        .fruits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .fruit-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+        
+        .fruit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }
+        
+        .fruit-emoji {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .fruit-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .fruit-price {
+            font-size: 1.25rem;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .fruit-description {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        
+        .stock-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        
+        .in-stock {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .out-of-stock {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
         }
         
         footer {
@@ -64,6 +155,10 @@
             header h1 {
                 font-size: 1.8rem;
             }
+            
+            .fruits-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -73,21 +168,77 @@
         <p>Welcome to your fresh fruits destination</p>
     </header>
     
-    <container>
+    <div class="container">
         <div class="welcome">
             <h2>Welcome to Fresh Fruits Daily</h2>
             <p>
-                This is your fresh fruits website! You can customize this page with your own content, 
-                images, and information about your fresh fruit offerings.
-            </p>
-            <p style="margin-top: 1rem;">
-                Get started by editing this <code>index.html</code> file to add your own content!
+                Browse our selection of fresh, high-quality fruits delivered daily. 
+                All our fruits are carefully selected to ensure the best taste and quality.
             </p>
         </div>
-    </container>
+        
+        <div class="fruits-section">
+            <h2>Our Fresh Selection</h2>
+            <div id="fruits-container" class="fruits-grid">
+                <div class="loading">Loading fruits...</div>
+            </div>
+        </div>
+    </div>
     
     <footer>
         <p>&copy; 2026 Fresh Fruits Daily. All rights reserved.</p>
     </footer>
+    
+    <script>
+        // Fetch and display fruits from backend
+        async function loadFruits() {
+            try {
+                const response = await fetch('fruits.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load fruits data');
+                }
+                const data = await response.json();
+                displayFruits(data.fruits);
+            } catch (error) {
+                console.error('Error loading fruits:', error);
+                document.getElementById('fruits-container').innerHTML = 
+                    `<div class="error">Error loading fruits data. Please try again later.</div>`;
+            }
+        }
+        
+        // Display fruits in grid
+        function displayFruits(fruits) {
+            const container = document.getElementById('fruits-container');
+            container.innerHTML = '';
+            
+            fruits.forEach(fruit => {
+                const fruitCard = createFruitCard(fruit);
+                container.appendChild(fruitCard);
+            });
+        }
+        
+        // Create individual fruit card
+        function createFruitCard(fruit) {
+            const card = document.createElement('div');
+            card.className = 'fruit-card';
+            card.style.borderLeftColor = fruit.color;
+            
+            const stockClass = fruit.inStock ? 'in-stock' : 'out-of-stock';
+            const stockText = fruit.inStock ? 'In Stock' : 'Out of Stock';
+            
+            card.innerHTML = `
+                <div class="fruit-emoji">${fruit.emoji}</div>
+                <div class="fruit-name">${fruit.name}</div>
+                <div class="fruit-price">${fruit.price}</div>
+                <div class="fruit-description">${fruit.description}</div>
+                <span class="stock-status ${stockClass}">${stockText}</span>
+            `;
+            
+            return card;
+        }
+        
+        // Load fruits when page loads
+        document.addEventListener('DOMContentLoaded', loadFruits);
+    </script>
 </body>
 </html>
