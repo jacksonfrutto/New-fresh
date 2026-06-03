@@ -22,7 +22,14 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-content {
             text-align: center;
+            flex-grow: 1;
         }
         
         header h1 {
@@ -33,6 +40,33 @@
         header p {
             font-size: 1.1rem;
             opacity: 0.9;
+        }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .cart-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .cart-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ff6b6b;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
         }
         
         .container {
@@ -120,6 +154,37 @@
             gap: 1rem;
         }
         
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f0f0f0;
+            border-radius: 6px;
+            padding: 0.25rem;
+        }
+        
+        .qty-btn {
+            background: none;
+            border: none;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+        
+        .qty-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .qty-display {
+            min-width: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
         .stock-status {
             display: inline-block;
             padding: 0.5rem 1rem;
@@ -161,6 +226,167 @@
             cursor: not-allowed;
         }
         
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 1rem;
+        }
+        
+        .modal-header h2 {
+            color: #667eea;
+            margin: 0;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .close-btn:hover {
+            color: #333;
+        }
+        
+        .cart-empty {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #667eea;
+        }
+        
+        .cart-item-info {
+            flex-grow: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        
+        .cart-item-price {
+            color: #667eea;
+            font-weight: bold;
+            margin-top: 0.25rem;
+        }
+        
+        .cart-item-quantity {
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .cart-item-total {
+            font-weight: bold;
+            color: #667eea;
+            min-width: 100px;
+            text-align: right;
+        }
+        
+        .remove-item-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 1rem;
+            transition: background 0.2s ease;
+        }
+        
+        .remove-item-btn:hover {
+            background: #d63031;
+        }
+        
+        .cart-summary {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f0f0f0;
+            border-radius: 8px;
+            border-top: 2px solid #667eea;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+        
+        .summary-total {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #667eea;
+            border-top: 1px solid #ddd;
+            padding-top: 0.75rem;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .checkout-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
         .loading {
             text-align: center;
             padding: 2rem;
@@ -176,6 +402,14 @@
             margin: 1rem 0;
         }
         
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
         footer {
             background: #333;
             color: white;
@@ -185,8 +419,17 @@
         }
         
         @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
             header h1 {
                 font-size: 1.8rem;
+            }
+            
+            .cart-icon {
+                margin-top: 1rem;
             }
             
             .fruits-grid {
@@ -197,13 +440,37 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+            
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .cart-item-quantity,
+            .cart-item-total {
+                width: 100%;
+                margin-top: 0.5rem;
+                text-align: left;
+            }
+            
+            .remove-item-btn {
+                width: 100%;
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>🍎 Fresh Fruits Daily 🍌</h1>
-        <p>Welcome to your fresh fruits destination</p>
+        <div class="header-content">
+            <h1>🍎 Fresh Fruits Daily 🍌</h1>
+            <p>Welcome to your fresh fruits destination</p>
+        </div>
+        <div class="cart-icon" onclick="openCart()">
+            🛒
+            <div class="cart-badge" id="cart-badge" style="display: none;">0</div>
+        </div>
     </header>
     
     <div class="container">
@@ -223,11 +490,29 @@
         </div>
     </div>
     
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🛒 Order Review</h2>
+                <button class="close-btn" onclick="closeCart()">✕</button>
+            </div>
+            <div id="cart-items-container"></div>
+        </div>
+    </div>
+    
     <footer>
         <p>&copy; 2026 Fresh Fruits Daily. All rights reserved.</p>
     </footer>
     
     <script>
+        let allFruits = [];
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        // Initialize cart on page load
+        function initCart() {
+            updateCartBadge();
+        }
+        
         // Fetch and display fruits from backend
         async function loadFruits() {
             try {
@@ -236,6 +521,7 @@
                     throw new Error('Failed to load fruits data');
                 }
                 const data = await response.json();
+                allFruits = data.fruits;
                 displayFruits(data.fruits);
             } catch (error) {
                 console.error('Error loading fruits:', error);
@@ -263,6 +549,8 @@
             
             const stockClass = fruit.inStock ? 'in-stock' : 'out-of-stock';
             const stockText = fruit.inStock ? 'In Stock' : 'Out of Stock';
+            const cartItem = cart.find(item => item.id === fruit.id);
+            const quantity = cartItem ? cartItem.quantity : 0;
             
             card.innerHTML = `
                 <div class="fruit-emoji">${fruit.emoji}</div>
@@ -271,23 +559,190 @@
                 <div class="fruit-description">${fruit.description}</div>
                 <div class="fruit-footer">
                     <span class="stock-status ${stockClass}">${stockText}</span>
-                    <button class="order-btn" ${!fruit.inStock ? 'disabled' : ''} onclick="handleOrder('${fruit.name}')">
-                        Order
-                    </button>
+                    ${fruit.inStock ? `
+                        <div class="quantity-control">
+                            <button class="qty-btn" onclick="updateQuantity(${fruit.id}, -1)">−</button>
+                            <span class="qty-display" id="qty-${fruit.id}">${quantity}</span>
+                            <button class="qty-btn" onclick="updateQuantity(${fruit.id}, 1)">+</button>
+                        </div>
+                        <button class="order-btn" onclick="addToCart(${fruit.id}, '${fruit.name}', '${fruit.price}', '${fruit.emoji}')" ${quantity === 0 ? 'disabled' : ''}>
+                            Add to Cart
+                        </button>
+                    ` : ''}
                 </div>
             `;
             
             return card;
         }
         
-        // Handle order button click
-        function handleOrder(fruitName) {
-            alert(`Order placed for ${fruitName}! 🛒`);
-            // Add your order handling logic here
+        // Update quantity
+        function updateQuantity(fruitId, change) {
+            const qtyDisplay = document.getElementById(`qty-${fruitId}`);
+            let currentQty = parseInt(qtyDisplay.textContent) || 0;
+            currentQty = Math.max(0, currentQty + change);
+            qtyDisplay.textContent = currentQty;
+            
+            const btn = event.target.parentElement.nextElementSibling;
+            btn.disabled = currentQty === 0;
         }
         
+        // Add to cart
+        function addToCart(fruitId, fruitName, fruitPrice, fruitEmoji) {
+            const qtyDisplay = document.getElementById(`qty-${fruitId}`);
+            const quantity = parseInt(qtyDisplay.textContent) || 0;
+            
+            if (quantity === 0) {
+                alert('Please select a quantity');
+                return;
+            }
+            
+            const existingItem = cart.find(item => item.id === fruitId);
+            
+            if (existingItem) {
+                existingItem.quantity = quantity;
+            } else {
+                cart.push({
+                    id: fruitId,
+                    name: fruitName,
+                    price: fruitPrice,
+                    emoji: fruitEmoji,
+                    quantity: quantity
+                });
+            }
+            
+            saveCart();
+            updateCartBadge();
+            qtyDisplay.textContent = '0';
+            alert(`${quantity} ${fruitName}(s) added to cart! 🛒`);
+        }
+        
+        // Save cart to localStorage
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+        
+        // Update cart badge
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-badge');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (totalItems > 0) {
+                badge.textContent = totalItems;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+        
+        // Open cart modal
+        function openCart() {
+            displayCart();
+            document.getElementById('cart-modal').classList.add('active');
+        }
+        
+        // Close cart modal
+        function closeCart() {
+            document.getElementById('cart-modal').classList.remove('active');
+        }
+        
+        // Display cart items
+        function displayCart() {
+            const container = document.getElementById('cart-items-container');
+            
+            if (cart.length === 0) {
+                container.innerHTML = '<div class="cart-empty">Your cart is empty 🛒</div>';
+                return;
+            }
+            
+            let html = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                const priceValue = parseFloat(item.price.replace(/[^\d.-]/g, ''));
+                const itemTotal = priceValue * item.quantity;
+                total += itemTotal;
+                
+                html += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.emoji} ${item.name}</div>
+                            <div class="cart-item-price">${item.price} per unit</div>
+                        </div>
+                        <div class="cart-item-quantity">Qty: ${item.quantity}</div>
+                        <div class="cart-item-total">KES ${itemTotal.toFixed(2)}</div>
+                        <button class="remove-item-btn" onclick="removeFromCart(${index})">Remove</button>
+                    </div>
+                `;
+            });
+            
+            html += `
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span>KES ${total.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery Fee:</span>
+                        <span>KES 50.00</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span>Total:</span>
+                        <span>KES ${(total + 50).toFixed(2)}</span>
+                    </div>
+                    <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        // Remove item from cart
+        function removeFromCart(index) {
+            if (confirm('Remove this item from cart?')) {
+                cart.splice(index, 1);
+                saveCart();
+                updateCartBadge();
+                displayCart();
+                displayFruits(allFruits);
+            }
+        }
+        
+        // Checkout
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => {
+                const priceValue = parseFloat(item.price.replace(/[^\d.-]/g, ''));
+                return sum + (priceValue * item.quantity);
+            }, 0);
+            
+            const orderSummary = cart.map(item => `${item.quantity}x ${item.name}`).join(', ');
+            
+            alert(`Order Confirmed! 🎉\n\nItems: ${orderSummary}\nTotal: KES ${(total + 50).toFixed(2)}\n\nThank you for your order!`);
+            
+            cart = [];
+            saveCart();
+            updateCartBadge();
+            closeCart();
+            displayFruits(allFruits);
+        }
+        
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('cart-modal');
+            if (event.target === modal) {
+                closeCart();
+            }
+        });
+        
         // Load fruits when page loads
-        document.addEventListener('DOMContentLoaded', loadFruits);
+        document.addEventListener('DOMContentLoaded', function() {
+            initCart();
+            loadFruits();
+        });
     </script>
 </body>
 </html>
