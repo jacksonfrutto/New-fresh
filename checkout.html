@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout & Payment - FRUTTO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #faf6ee;
+            --dark: #1a1208;
+            --orange: #e8621a;
+            --green: #2d6a2f;
+            --yellow: #f5c842;
+            --text-muted: #6b5c3e;
+            --success: #27ae60;
+            --error: #e74c3c;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            border-bottom: 2px solid var(--orange);
+            padding-bottom: 0.75rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1.5px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px rgba(232, 98, 26, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .order-summary {
+            background: var(--cream);
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .item-name {
+            font-weight: 500;
+        }
+
+        .item-qty {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0 1rem;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: var(--orange);
+        }
+
+        .totals {
+            background: white;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+
+        .total-row.final {
+            border-top: 2px solid var(--orange);
+            padding-top: 0.75rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--orange);
+        }
+
+        .payment-section {
+            background: var(--green);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .payment-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .business-number {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1.5rem;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 1rem;
+            border: 2px dashed white;
+        }
+
+        .payment-instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            text-align: left;
+            margin-bottom: 1rem;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-method {
+            padding: 1rem;
+            border: 2px solid white;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-method:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .payment-method.active {
+            background: white;
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        .payment-method-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            background: var(--orange);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: #d4531a;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--orange);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 4px solid var(--cream);
+            border-top: 4px solid var(--orange);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.3rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🍎 FRUTTO - Checkout & Payment</h1>
+        <p>Complete your fresh fruit order</p>
+    </header>
+
+    <div class="container">
+        <a href="fruit-shop-1.html" class="back-link">← Back to Shop</a>
+
+        <div id="alertContainer"></div>
+
+        <div class="checkout-grid">
+            <!-- Customer & Order Details -->
+            <div class="section">
+                <h2>📋 Order Details</h2>
+                <form id="checkoutForm">
+                    <div class="form-group">
+                        <label for="customerName">Full Name *</label>
+                        <input type="text" id="customerName" name="customerName" required placeholder="John Doe">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerEmail">Email Address *</label>
+                        <input type="email" id="customerEmail" name="customerEmail" required placeholder="john@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerPhone">Phone Number *</label>
+                        <input type="tel" id="customerPhone" name="customerPhone" required placeholder="+254 712 345 678">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="deliveryAddress">Delivery Address *</label>
+                        <textarea id="deliveryAddress" name="deliveryAddress" required placeholder="123 Main Street, Nairobi, Kenya"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="specialInstructions">Special Instructions</label>
+                        <textarea id="specialInstructions" name="specialInstructions" placeholder="e.g., Leave at gate, ring doorbell twice"></textarea>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="section">
+                <h2>🛒 Order Summary</h2>
+                <div id="orderSummary">
+                    <div class="order-summary">
+                        <p style="color: var(--text-muted); text-align: center;">Your cart items will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Section -->
+        <div class="payment-section">
+            <h3>💳 Payment Method</h3>
+            <p>Choose how you'd like to pay for your order</p>
+
+            <div class="payment-methods">
+                <div class="payment-method active" onclick="selectPaymentMethod('M-Pesa', this)">
+                    <div class="payment-method-icon">📱</div>
+                    <div>M-Pesa</div>
+                </div>
+                <div class="payment-method" onclick="selectPaymentMethod('Airtel Money', this)">
+                    <div class="payment-method-icon">📞</div>
+                    <div>Airtel Money</div>
+                </div>
+                <div class="payment-method" onclick="selectPaymentMethod('Bank Transfer', this)">
+                    <div class="payment-method-icon">🏦</div>
+                    <div>Bank Transfer</div>
+                </div>
+                <div class="payment-method" onclick="selectPaymentMethod('Cash on Delivery', this)">
+                    <div class="payment-method-icon">💵</div>
+                    <div>Cash on Delivery</div>
+                </div>
+            </div>
+
+            <div class="payment-instructions" id="paymentInstructions">
+                <strong>M-Pesa Payment Instructions:</strong><br>
+                1. Go to M-Pesa on your phone<br>
+                2. Select "Lipa na M-Pesa Online"<br>
+                3. Enter the business number shown below<br>
+                4. Enter the amount and your M-Pesa PIN<br>
+                5. Confirmation will appear shortly
+            </div>
+
+            <div class="business-number" id="businessNumberDisplay">
+                Business: 174379
+            </div>
+        </div>
+
+        <!-- Final Order Section -->
+        <div class="section" style="text-align: center;">
+            <h2>✅ Complete Order</h2>
+            <div id="loadingSpinner" class="loading">
+                <div class="spinner"></div>
+                <p>Processing your order...</p>
+            </div>
+            <div id="orderContent">
+                <p style="margin-bottom: 1.5rem; color: var(--text-muted);">
+                    By clicking "Place Order", you agree to our terms and conditions. You'll receive payment instructions via email.
+                </p>
+                <button onclick="placeOrder()">Place Order & Proceed to Payment</button>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+                    Have questions? <a href="#" style="color: var(--orange);">Contact Support</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedPaymentMethod = 'M-Pesa';
+        const BUSINESS_NUMBERS = {
+            'M-Pesa': '174379',
+            'Airtel Money': '100500',
+            'Bank Transfer': 'FRUTTO BANK KE',
+            'Cash on Delivery': 'N/A'
+        };
+
+        // Load cart from localStorage (set from fruit-shop-1.html)
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || {};
+            displayOrderSummary(cart);
+        }
+
+        function displayOrderSummary(cart) {
+            const cartItems = Object.values(cart).filter(i => i.qty > 0);
+            const summary = document.getElementById('orderSummary');
+            
+            if (cartItems.length === 0) {
+                summary.innerHTML = `
+                    <div class="alert error">
+                        Your cart is empty. <a href="fruit-shop-1.html">Return to shop</a> to add items.
+                    </div>
+                `;
+                return;
+            }
+
+            const totalAmount = cartItems.reduce((s, i) => s + i.qty * i.price, 0);
+            const itemsHTML = cartItems.map(item => `
+                <div class="order-item">
+                    <span class="item-name">${item.emoji} ${item.name}</span>
+                    <span class="item-qty">x${item.qty}</span>
+                    <span class="item-price">KES ${(item.qty * item.price).toFixed(2)}</span>
+                </div>
+            `).join('');
+
+            summary.innerHTML = `
+                <div class="order-summary">
+                    ${itemsHTML}
+                </div>
+                <div class="totals">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span>KES ${totalAmount.toFixed(2)}</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Delivery Fee:</span>
+                        <span>KES 150.00</span>
+                    </div>
+                    <div class="total-row final">
+                        <span>TOTAL:</span>
+                        <span>KES ${(totalAmount + 150).toFixed(2)}</span>
+                    </div>
+                </div>
+            `;
+
+            // Store total for order submission
+            document.getElementById('totalAmount').value = (totalAmount + 150).toFixed(2);
+        }
+
+        function selectPaymentMethod(method, element) {
+            selectedPaymentMethod = method;
+            document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+
+            const instructions = {
+                'M-Pesa': '1. Go to M-Pesa on your phone<br>2. Select "Lipa na M-Pesa Online"<br>3. Enter the business number: ' + BUSINESS_NUMBERS['M-Pesa'] + '<br>4. Enter the amount and your M-Pesa PIN<br>5. Confirmation will appear shortly',
+                'Airtel Money': '1. Go to Airtel Money<br>2. Select "Pay to Business"<br>3. Enter the business number: ' + BUSINESS_NUMBERS['Airtel Money'] + '<br>4. Enter the amount and PIN<br>5. Wait for confirmation',
+                'Bank Transfer': '1. Log in to your bank app<br>2. Select "Send Money"<br>3. Enter account: FRUTTO BANK KE<br>4. Use order ID as reference<br>5. Complete the transfer',
+                'Cash on Delivery': '1. Proceed with checkout<br>2. Choose cash payment on delivery<br>3. Driver will collect payment upon delivery<br>4. Fruits will be handed over after payment'
+            };
+
+            document.getElementById('paymentInstructions').innerHTML = '<strong>' + method + ' Payment Instructions:</strong><br>' + instructions[method];
+            document.getElementById('businessNumberDisplay').textContent = method === 'Cash on Delivery' 
+                ? 'Payment on Delivery' 
+                : 'Business: ' + BUSINESS_NUMBERS[method];
+        }
+
+        function showAlert(message, type = 'info') {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = `<div class="alert ${type}">${message}</div>`;
+            setTimeout(() => {
+                alertContainer.innerHTML = '';
+            }, 5000);
+        }
+
+        async function placeOrder() {
+            const form = document.getElementById('checkoutForm');
+            const customerName = document.getElementById('customerName').value;
+            const customerEmail = document.getElementById('customerEmail').value;
+            const customerPhone = document.getElementById('customerPhone').value;
+
+            if (!form.checkValidity()) {
+                showAlert('Please fill in all required fields', 'error');
+                return;
+            }
+
+            const cart = JSON.parse(localStorage.getItem('cart')) || {};
+            const cartItems = Object.values(cart).filter(i => i.qty > 0);
+
+            if (cartItems.length === 0) {
+                showAlert('Your cart is empty', 'error');
+                return;
+            }
+
+            const totalAmount = cartItems.reduce((s, i) => s + i.qty * i.price, 0) + 150;
+
+            // Show loading
+            document.getElementById('orderContent').style.display = 'none';
+            document.getElementById('loadingSpinner').style.display = 'block';
+
+            try {
+                // Send order to backend
+                const response = await fetch('http://localhost:3000/api/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        customerName,
+                        customerEmail,
+                        customerPhone,
+                        items: cartItems,
+                        totalAmount,
+                        paymentMethod: selectedPaymentMethod,
+                        businessNumber: BUSINESS_NUMBERS[selectedPaymentMethod]
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    localStorage.setItem('lastOrder', JSON.stringify(data.order));
+                    localStorage.removeItem('cart');
+                    
+                    // Redirect to order confirmation
+                    setTimeout(() => {
+                        window.location.href = `order-confirmation.html?orderId=${data.order.orderId}`;
+                    }, 1000);
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                document.getElementById('orderContent').style.display = 'block';
+                document.getElementById('loadingSpinner').style.display = 'none';
+                showAlert('Error placing order: ' + error.message, 'error');
+            }
+        }
+
+        // Add hidden field for total
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('checkoutForm');
+            const totalField = document.createElement('input');
+            totalField.type = 'hidden';
+            totalField.id = 'totalAmount';
+            form.appendChild(totalField);
+            
+            loadCart();
+        });
+    </script>
+</body>
+</html>
