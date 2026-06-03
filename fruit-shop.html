@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FRUTTO — Fresh Fruits Delivered</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf6ee;
+    --dark: #1a1208;
+    --orange: #e8621a;
+    --green: #2d6a2f;
+    --yellow: #f5c842;
+    --pink: #f2a07b;
+    --text-muted: #6b5c3e;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--dark);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: var(--cream);
+    border-bottom: 1.5px solid var(--dark);
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; font-weight: 900; letter-spacing: -1px;
+    color: var(--dark);
+    text-decoration: none;
+  }
+  .logo span { color: var(--orange); }
+  nav ul { list-style: none; display: flex; gap: 2.5rem; }
+  nav ul a {
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--dark); text-decoration: none;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--orange); }
+  .nav-cta {
+    background: var(--dark); color: var(--cream) !important;
+    padding: 0.55rem 1.4rem; border-radius: 2px;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--orange) !important; color: var(--cream) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 5rem 3rem 5rem 5rem;
+    position: relative;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--orange);
+    margin-bottom: 1.5rem;
+  }
+  .hero-tag::before {
+    content: ''; width: 2rem; height: 1.5px; background: var(--orange);
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    font-weight: 900; line-height: 1.0;
+    letter-spacing: -2px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em {
+    font-style: italic; color: var(--orange);
+  }
+  .hero-desc {
+    font-size: 1.05rem; color: var(--text-muted);
+    line-height: 1.7; max-width: 420px;
+    margin-bottom: 2.5rem;
+  }
+  .btn-group { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--dark); color: var(--cream);
+    padding: 1rem 2.2rem; font-size: 0.9rem; font-weight: 500;
+    letter-spacing: 0.05em; text-decoration: none; border-radius: 2px;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--orange); transform: translateY(-2px); }
+  .btn-secondary {
+    color: var(--dark); font-size: 0.9rem; font-weight: 500;
+    text-decoration: none; display: flex; align-items: center; gap: 0.5rem;
+    border-bottom: 1.5px solid var(--dark); padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .btn-secondary:hover { color: var(--orange); border-color: var(--orange); }
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 4rem;
+    border-top: 1px solid rgba(26,18,8,0.15); padding-top: 2rem;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; font-weight: 700; line-height: 1;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem; }
+
+  .hero-right {
+    background: var(--green);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 4rem 3rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-right::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 70%, rgba(245,200,66,0.25) 0%, transparent 60%);
+  }
+  .fruit-showcase {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    width: 100%; max-width: 420px;
+  }
+  .fruit-card-hero {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px; padding: 1.5rem;
+    text-align: center; color: white;
+    backdrop-filter: blur(4px);
+    transition: transform 0.3s, background 0.3s;
+    cursor: pointer;
+    animation: floatCard 4s ease-in-out infinite;
+  }
+  .fruit-card-hero:nth-child(2) { animation-delay: 0.5s; }
+  .fruit-card-hero:nth-child(3) { animation-delay: 1s; }
+  .fruit-card-hero:nth-child(4) { animation-delay: 1.5s; }
+  @keyframes floatCard {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  .fruit-card-hero:hover { background: rgba(255,255,255,0.2); }
+  .fruit-emoji { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
+  .fruit-name { font-size: 0.95rem; font-weight: 500; margin-bottom: 0.2rem; }
+  .fruit-price { font-size: 1.1rem; font-weight: 700; color: var(--yellow); }
+  .hero-badge {
+    position: absolute; top: 2.5rem; right: 2.5rem;
+    background: var(--yellow); color: var(--dark);
+    border-radius: 50%; width: 90px; height: 90px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem; font-weight: 700; text-align: center;
+    line-height: 1.2; z-index: 2;
+    animation: spin 12s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── MARQUEE ── */
+  .marquee-strip {
+    background: var(--orange); padding: 0.9rem 0;
+    overflow: hidden; white-space: nowrap;
+    border-top: 1.5px solid var(--dark); border-bottom: 1.5px solid var(--dark);
+  }
+  .marquee-inner {
+    display: inline-flex; gap: 2rem;
+    animation: marquee 20s linear infinite;
+  }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .marquee-item {
+    font-family: 'Playfair Display', serif;
+    font-style: italic; font-size: 1.1rem; color: var(--cream);
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .marquee-dot { width: 5px; height: 5px; background: var(--cream); border-radius: 50%; flex-shrink: 0; }
+
+  /* ── SHOP SECTION ── */
+  .section { padding: 6rem 4rem 5rem; }
+  .section-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;
+  }
+  .section-tag {
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--orange); font-weight: 500; margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 900;
+    line-height: 1.1; letter-spacing: -1px;
+  }
+  .filter-tabs {
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 0.4rem 1.1rem; font-size: 0.8rem; font-weight: 500;
+    letter-spacing: 0.05em; border: 1.5px solid var(--dark);
+    background: transparent; cursor: pointer; border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--dark); color: var(--cream);
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .product-card {
+    border: 1.5px solid var(--dark); border-radius: 4px;
+    overflow: hidden; background: white;
+    transition: transform 0.25s, box-shadow 0.25s;
+    cursor: pointer;
+    animation: fadeUp 0.5s ease both;
+  }
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 6px 6px 0 var(--dark);
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .product-img {
+    background: var(--cream); height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 5rem; position: relative; overflow: hidden;
+    border-bottom: 1.5px solid var(--dark);
+  }
+  .product-badge {
+    position: absolute; top: 0.75rem; left: 0.75rem;
+    background: var(--orange); color: white;
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 0.25rem 0.6rem; border-radius: 2px;
+  }
+  .product-badge.organic { background: var(--green); }
+  .product-info { padding: 1.2rem; }
+  .product-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 700; margin-bottom: 0.25rem;
+  }
+  .product-origin { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; }
+  .product-footer { display: flex; align-items: center; justify-content: space-between; }
+  .product-price { font-size: 1.3rem; font-weight: 700; color: var(--dark); }
+  .product-unit { font-size: 0.75rem; color: var(--text-muted); }
+  .add-btn {
+    background: var(--dark); color: var(--cream);
+    border: none; cursor: pointer;
+    width: 36px; height: 36px; border-radius: 2px;
+    font-size: 1.3rem; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .add-btn:hover { background: var(--orange); transform: scale(1.1); }
+  .add-btn.added { background: var(--green); }
+
+  /* ── BANNER ── */
+  .promo-banner {
+    margin: 0 4rem 5rem;
+    background: var(--dark); color: var(--cream);
+    border-radius: 4px; padding: 4rem;
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: center; gap: 3rem;
+    position: relative; overflow: hidden;
+  }
+  .promo-banner::before {
+    content: '🍋';
+    position: absolute; right: 18%; top: 50%; transform: translateY(-50%);
+    font-size: 8rem; opacity: 0.12;
+  }
+  .promo-label {
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--yellow); font-weight: 500; margin-bottom: 0.75rem;
+  }
+  .promo-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 900;
+    line-height: 1.1; letter-spacing: -1px; margin-bottom: 1rem;
+  }
+  .promo-desc { color: rgba(250,246,238,0.7); font-size: 0.95rem; line-height: 1.6; max-width: 480px; }
+  .btn-light {
+    background: var(--cream); color: var(--dark);
+    padding: 1rem 2.2rem; font-size: 0.9rem; font-weight: 500;
+    border-radius: 2px; text-decoration: none; white-space: nowrap;
+    transition: background 0.2s;
+    display: inline-block;
+  }
+  .btn-light:hover { background: var(--yellow); }
+
+  /* ── FEATURES ── */
+  .features {
+    border-top: 1.5px solid var(--dark);
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    margin: 0;
+  }
+  .feature-item {
+    padding: 3rem 3rem;
+    border-right: 1.5px solid var(--dark);
+  }
+  .feature-item:last-child { border-right: none; }
+  .feature-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+  .feature-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem;
+  }
+  .feature-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark); color: var(--cream);
+    padding: 4rem 4rem 2rem;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem; margin-bottom: 3rem;
+  }
+  .footer-brand .logo { color: var(--cream); display: block; margin-bottom: 1rem; }
+  .footer-brand p { font-size: 0.85rem; color: rgba(250,246,238,0.55); line-height: 1.7; }
+  .footer-col h4 {
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    font-weight: 600; margin-bottom: 1.2rem; color: rgba(250,246,238,0.5);
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 0.6rem; }
+  .footer-col a { color: rgba(250,246,238,0.75); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--yellow); }
+  .footer-bottom {
+    border-top: 1px solid rgba(250,246,238,0.1); padding-top: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.8rem; color: rgba(250,246,238,0.4);
+  }
+
+  /* ── CART DRAWER ── */
+  .cart-overlay {
+    position: fixed; inset: 0; background: rgba(26,18,8,0.5);
+    z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .cart-overlay.open { opacity: 1; pointer-events: auto; }
+  .cart-drawer {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: 380px; background: var(--cream);
+    border-left: 1.5px solid var(--dark);
+    z-index: 201; transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    display: flex; flex-direction: column;
+  }
+  .cart-drawer.open { transform: translateX(0); }
+  .cart-header {
+    padding: 1.5rem 2rem; border-bottom: 1.5px solid var(--dark);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .cart-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 700;
+  }
+  .cart-close {
+    background: none; border: none; cursor: pointer;
+    font-size: 1.5rem; color: var(--dark); padding: 0.25rem;
+    line-height: 1;
+  }
+  .cart-items { flex: 1; overflow-y: auto; padding: 1.5rem 2rem; }
+  .cart-empty { text-align: center; padding: 3rem 0; color: var(--text-muted); }
+  .cart-empty span { font-size: 3rem; display: block; margin-bottom: 1rem; }
+  .cart-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 0; border-bottom: 1px solid rgba(26,18,8,0.1);
+  }
+  .cart-item-emoji { font-size: 2rem; }
+  .cart-item-info { flex: 1; }
+  .cart-item-name { font-weight: 500; font-size: 0.95rem; }
+  .cart-item-price { font-size: 0.85rem; color: var(--text-muted); }
+  .cart-item-qty {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.9rem; font-weight: 500;
+  }
+  .qty-btn {
+    background: var(--dark); color: var(--cream);
+    border: none; cursor: pointer; width: 24px; height: 24px;
+    border-radius: 2px; font-size: 1rem; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .qty-btn:hover { background: var(--orange); }
+  .cart-footer { padding: 1.5rem 2rem; border-top: 1.5px solid var(--dark); }
+  .cart-total {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 1.2rem;
+  }
+  .cart-total-label { font-size: 0.85rem; color: var(--text-muted); }
+  .cart-total-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; font-weight: 700;
+  }
+  .checkout-btn {
+    display: block; width: 100%; text-align: center;
+    background: var(--dark); color: var(--cream);
+    padding: 1rem; font-size: 0.95rem; font-weight: 500;
+    border: none; cursor: pointer; border-radius: 2px;
+    transition: background 0.2s; letter-spacing: 0.05em;
+  }
+  .checkout-btn:hover { background: var(--orange); }
+
+  /* ── CART ICON ── */
+  .cart-icon-btn {
+    position: relative; background: none; border: none; cursor: pointer;
+    font-size: 1.4rem; padding: 0.2rem;
+  }
+  .cart-count {
+    position: absolute; top: -4px; right: -8px;
+    background: var(--orange); color: white;
+    font-size: 0.65rem; font-weight: 700; width: 18px; height: 18px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.2s, transform 0.2s;
+    transform: scale(0.5);
+  }
+  .cart-count.visible { opacity: 1; transform: scale(1); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 2rem; }
+    nav ul { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { min-height: 50vh; }
+    .section { padding: 4rem 2rem; }
+    .promo-banner { margin: 0 2rem 4rem; padding: 2.5rem; grid-template-columns: 1fr; }
+    .features { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .cart-drawer { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">FRUT<span>TO</span></a>
+  <ul>
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#delivery">Delivery</a></li>
+    <li><a href="#contact" class="nav-cta">Order Now</a></li>
+  </ul>
+  <button class="cart-icon-btn" onclick="toggleCart()" aria-label="Open cart">
+    🛒
+    <span class="cart-count" id="cartCount">0</span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <span class="hero-tag">Farm-Fresh Since 2020</span>
+    <h1>Nature's<br><em>Finest</em><br>Fruits</h1>
+    <p class="hero-desc">Handpicked from trusted farms worldwide, delivered fresh to your door. No preservatives. No compromise. Just pure, vibrant flavor.</p>
+    <div class="btn-group">
+      <a href="#shop" class="btn-primary">Shop Now</a>
+      <a href="#about" class="btn-secondary">Our Story →</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Fruit varieties</div>
+      </div>
+      <div>
+        <div class="stat-num">2k+</div>
+        <div class="stat-label">Happy customers</div>
+      </div>
+      <div>
+        <div class="stat-num">24h</div>
+        <div class="stat-label">Farm to door</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-badge">⭐ Top<br>Rated<br>2025</div>
+    <div class="fruit-showcase">
+      <div class="fruit-card-hero">
+        <span class="fruit-emoji">🍓</span>
+        <div class="fruit-name">Strawberry</div>
+        <div class="fruit-price">$3.99/lb</div>
+      </div>
+      <div class="fruit-card-hero">
+        <span class="fruit-emoji">🥭</span>
+        <div class="fruit-name">Alphonso Mango</div>
+        <div class="fruit-price">$5.49/lb</div>
+      </div>
+      <div class="fruit-card-hero">
+        <span class="fruit-emoji">🍇</span>
+        <div class="fruit-name">Muscat Grapes</div>
+        <div class="fruit-price">$4.29/lb</div>
+      </div>
+      <div class="fruit-card-hero">
+        <span class="fruit-emoji">🍑</span>
+        <div class="fruit-name">White Peach</div>
+        <div class="fruit-price">$3.79/lb</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-inner" id="marqueeInner"></div>
+</div>
+
+<!-- SHOP -->
+<section class="section" id="shop">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Fresh Arrivals</div>
+      <h2 class="section-title">Shop the Collection</h2>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-btn active" onclick="filterProducts('all', this)">All</button>
+      <button class="filter-btn" onclick="filterProducts('tropical', this)">Tropical</button>
+      <button class="filter-btn" onclick="filterProducts('berry', this)">Berries</button>
+      <button class="filter-btn" onclick="filterProducts('citrus', this)">Citrus</button>
+      <button class="filter-btn" onclick="filterProducts('stone', this)">Stone Fruits</button>
+    </div>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- PROMO BANNER -->
+<div class="promo-banner">
+  <div>
+    <div class="promo-label">🌿 Weekly Deal</div>
+    <h3 class="promo-title">Get 20% Off<br>Your First Box</h3>
+    <p class="promo-desc">Sign up for our weekly seasonal fruit box — curated by our farmers, delivered every Friday. Use code <strong>FRUTTO20</strong> at checkout.</p>
+  </div>
+  <a href="#contact" class="btn-light">Subscribe Now</a>
+</div>
+
+<!-- FEATURES -->
+<div class="features">
+  <div class="feature-item">
+    <span class="feature-icon">🚜</span>
+    <div class="feature-title">Direct from Farm</div>
+    <p class="feature-desc">We work directly with 40+ farms. No middlemen, fresher produce, fairer prices.</p>
+  </div>
+  <div class="feature-item">
+    <span class="feature-icon">⚡</span>
+    <div class="feature-title">Same-Day Delivery</div>
+    <p class="feature-desc">Order before noon, get your fruits the same evening within city limits.</p>
+  </div>
+  <div class="feature-item">
+    <span class="feature-icon">🌱</span>
+    <div class="feature-title">Certified Organic</div>
+    <p class="feature-desc">Over 80% of our inventory is certified organic. No pesticides, ever.</p>
+  </div>
+  <div class="feature-item">
+    <span class="feature-icon">♻️</span>
+    <div class="feature-title">Zero Waste Packaging</div>
+    <p class="feature-desc">All packaging is compostable or returnable. Good for you, good for the planet.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">FRUT<span style="color:var(--yellow)">TO</span></a>
+      <p>Fresh fruits, honest sourcing, joyful eating. From our farms to your table — always.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#">Tropical Fruits</a></li>
+        <li><a href="#">Berries</a></li>
+        <li><a href="#">Citrus</a></li>
+        <li><a href="#">Stone Fruits</a></li>
+        <li><a href="#">Seasonal Box</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">Our Story</a></li>
+        <li><a href="#">Our Farms</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Delivery Info</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 FRUTTO. All rights reserved.</span>
+    <span>Made with 🍊 and good taste.</span>
+  </div>
+</footer>
+
+<!-- CART OVERLAY & DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <span class="cart-title">Your Basket</span>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <span>🛒</span>
+      <p>Your basket is empty.</p>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-amount" id="cartTotal">$0.00</span>
+    </div>
+    <button class="checkout-btn">Proceed to Checkout →</button>
+  </div>
+</div>
+
+<script>
+const products = [
+  { id:1, emoji:'🍓', name:'Strawberries', origin:'California, USA', price:3.99, unit:'lb', badge:'New', badgeType:'', category:'berry' },
+  { id:2, emoji:'🥭', name:'Alphonso Mango', origin:'Maharashtra, India', price:5.49, unit:'lb', badge:'Organic', badgeType:'organic', category:'tropical' },
+  { id:3, emoji:'🍇', name:'Red Grapes', origin:'Mendoza, Argentina', price:4.29, unit:'lb', badge:'', badgeType:'', category:'berry' },
+  { id:4, emoji:'🍑', name:'White Peaches', origin:'Georgia, USA', price:3.79, unit:'lb', badge:'Seasonal', badgeType:'', category:'stone' },
+  { id:5, emoji:'🍊', name:'Blood Orange', origin:'Sicily, Italy', price:4.99, unit:'lb', badge:'Organic', badgeType:'organic', category:'citrus' },
+  { id:6, emoji:'🍍', name:'Gold Pineapple', origin:'Costa Rica', price:6.99, unit:'each', badge:'', badgeType:'', category:'tropical' },
+  { id:7, emoji:'🍋', name:'Meyer Lemon', origin:'Seville, Spain', price:2.99, unit:'lb', badge:'Organic', badgeType:'organic', category:'citrus' },
+  { id:8, emoji:'🫐', name:'Wild Blueberries', origin:'Maine, USA', price:5.99, unit:'pint', badge:'New', badgeType:'', category:'berry' },
+  { id:9, emoji:'🍒', name:'Bing Cherries', origin:'Washington, USA', price:7.49, unit:'lb', badge:'Seasonal', badgeType:'', category:'stone' },
+  { id:10, emoji:'🥝', name:'Gold Kiwi', origin:'New Zealand', price:3.49, unit:'lb', badge:'Organic', badgeType:'organic', category:'tropical' },
+  { id:11, emoji:'🍈', name:'Canary Melon', origin:'Almería, Spain', price:4.99, unit:'each', badge:'', badgeType:'', category:'tropical' },
+  { id:12, emoji:'🍏', name:'Granny Smith', origin:'New South Wales, AU', price:2.79, unit:'lb', badge:'Organic', badgeType:'organic', category:'stone' },
+];
+
+let cart = {};
+let currentFilter = 'all';
+
+function renderProducts(filter='all') {
+  const grid = document.getElementById('productsGrid');
+  const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+  grid.innerHTML = filtered.map((p, i) => `
+    <div class="product-card" style="animation-delay:${i*0.06}s">
+      <div class="product-img">
+        ${p.badge ? `<span class="product-badge ${p.badgeType}">${p.badge}</span>` : ''}
+        <span>${p.emoji}</span>
+      </div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-origin">📍 ${p.origin}</div>
+        <div class="product-footer">
+          <div>
+            <span class="product-price">$${p.price.toFixed(2)}</span>
+            <span class="product-unit"> / ${p.unit}</span>
+          </div>
+          <button class="add-btn" id="btn-${p.id}" onclick="addToCart(${p.id})" title="Add to cart">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterProducts(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = cat;
+  renderProducts(cat);
+}
+
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  if (!cart[id]) cart[id] = { ...p, qty: 0 };
+  cart[id].qty++;
+  const btn = document.getElementById('btn-' + id);
+  if (btn) {
+    btn.textContent = '✓'; btn.classList.add('added');
+    setTimeout(() => { btn.textContent = '+'; btn.classList.remove('added'); }, 800);
+  }
+  updateCartUI();
+}
+
+function updateCartUI() {
+  const items = Object.values(cart).filter(i => i.qty > 0);
+  const totalQty = items.reduce((s,i) => s + i.qty, 0);
+  const totalPrice = items.reduce((s,i) => s + i.qty * i.price, 0);
+
+  const countEl = document.getElementById('cartCount');
+  countEl.textContent = totalQty;
+  countEl.classList.toggle('visible', totalQty > 0);
+
+  const cartItemsEl = document.getElementById('cartItems');
+  if (items.length === 0) {
+    cartItemsEl.innerHTML = `<div class="cart-empty"><span>🛒</span><p>Your basket is empty.</p></div>`;
+    document.getElementById('cartFooter').style.display = 'none';
+  } else {
+    cartItemsEl.innerHTML = items.map(i => `
+      <div class="cart-item">
+        <span class="cart-item-emoji">${i.emoji}</span>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${i.name}</div>
+          <div class="cart-item-price">$${(i.price * i.qty).toFixed(2)}</div>
+        </div>
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="changeQty(${i.id}, -1)">−</button>
+          <span>${i.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${i.id}, 1)">+</button>
+        </div>
+      </div>
+    `).join('');
+    document.getElementById('cartTotal').textContent = '$' + totalPrice.toFixed(2);
+    document.getElementById('cartFooter').style.display = 'block';
+  }
+}
+
+function changeQty(id, delta) {
+  if (!cart[id]) return;
+  cart[id].qty = Math.max(0, cart[id].qty + delta);
+  if (cart[id].qty === 0) delete cart[id];
+  updateCartUI();
+}
+
+function toggleCart() {
+  document.getElementById('cartOverlay').classList.toggle('open');
+  document.getElementById('cartDrawer').classList.toggle('open');
+}
+
+// Marquee
+const marqueeItems = ['Organic Mangoes', 'Fresh Berries', 'Citrus Season', 'Same-Day Delivery', 'Farm Direct', 'Zero Pesticides', 'Seasonal Boxes', 'Free Over $40'];
+const inner = document.getElementById('marqueeInner');
+const duped = [...marqueeItems, ...marqueeItems, ...marqueeItems, ...marqueeItems];
+inner.innerHTML = duped.map(t => `<span class="marquee-item"><span class="marquee-dot"></span>${t}</span>`).join('');
+
+renderProducts();
+</script>
+</body>
+</html>
