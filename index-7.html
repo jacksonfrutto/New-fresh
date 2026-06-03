@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreshKe — Fresh Fruits Delivered</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #1a6b2f;
+  --green-light: #2d8f45;
+  --lime: #b5e550;
+  --cream: #fdf8f0;
+  --brown: #3d2b1f;
+  --orange: #f4a12b;
+  --red: #e84040;
+  --mpesa-green: #00a651;
+  --airtel-red: #e4002b;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--brown);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--green);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--lime);
+  letter-spacing: -1px;
+}
+.logo span { color: #fff; }
+
+.cart-btn {
+  background: var(--lime);
+  color: var(--green);
+  border: none;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.cart-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.cart-count {
+  background: var(--green);
+  color: var(--lime);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+  padding: 60px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(181,229,80,0.15) 0%, transparent 70%);
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 8vw, 64px);
+  color: #fff;
+  line-height: 1.1;
+  position: relative;
+}
+.hero h1 em { color: var(--lime); font-style: normal; }
+.hero p {
+  color: rgba(255,255,255,0.75);
+  margin-top: 12px;
+  font-size: 16px;
+  position: relative;
+}
+.delivery-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50px;
+  padding: 6px 16px;
+  color: #fff;
+  font-size: 13px;
+  margin-top: 20px;
+  position: relative;
+}
+
+/* ── PRODUCTS ── */
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  padding: 40px 24px 20px;
+  color: var(--green);
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  padding: 0 24px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.product-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: pointer;
+  animation: popIn 0.4s ease both;
+}
+.product-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.product-emoji {
+  font-size: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 0 16px;
+  background: linear-gradient(160deg, #f9f3e8, #fff);
+}
+.product-info { padding: 12px 14px 14px; }
+.product-name { font-weight: 500; font-size: 15px; }
+.product-unit { font-size: 12px; color: #999; margin-top: 2px; }
+.product-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.product-price { font-weight: 700; font-size: 16px; color: var(--green); }
+.add-btn {
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.15s;
+}
+.add-btn:hover { background: var(--green-light); transform: scale(1.1); }
+.add-btn:active { transform: scale(0.95); }
+
+/* ── CART DRAWER ── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.overlay.open { opacity: 1; pointer-events: all; }
+
+.cart-drawer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: min(400px, 100vw);
+  background: #fff;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+}
+.cart-drawer.open { transform: translateX(0); }
+
+.drawer-header {
+  background: var(--green);
+  color: #fff;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.drawer-header h2 { font-family: 'Playfair Display', serif; font-size: 22px; }
+.close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+}
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.empty-cart {
+  text-align: center;
+  padding: 60px 20px;
+  color: #aaa;
+  font-size: 15px;
+}
+.empty-cart .big { font-size: 48px; display: block; margin-bottom: 12px; }
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.cart-item-emoji { font-size: 32px; }
+.cart-item-name { font-weight: 500; font-size: 14px; }
+.cart-item-price { font-size: 13px; color: #888; }
+.cart-item-controls {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.qty-btn {
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.qty-btn:hover { background: #e0e0e0; }
+.qty-num { font-weight: 700; min-width: 20px; text-align: center; }
+
+.cart-footer {
+  padding: 20px;
+  border-top: 2px solid #f0f0f0;
+}
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.cart-total span:last-child { color: var(--green); }
+
+/* ── CHECKOUT ── */
+.checkout-section {
+  display: none;
+  flex-direction: column;
+  gap: 14px;
+}
+.checkout-section.visible { display: flex; }
+
+.checkout-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--green);
+}
+
+.input-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #888;
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.input-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  transition: border-color 0.2s;
+  outline: none;
+}
+.input-group input:focus { border-color: var(--green); }
+
+.pay-methods {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.pay-method {
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 14px 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.2s, background 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.pay-method.selected { border-color: var(--green); background: #f0faf3; }
+.pay-method .method-logo {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.pay-method .mpesa { color: var(--mpesa-green); }
+.pay-method .airtel { color: var(--airtel-red); }
+.pay-method .method-name { font-size: 11px; color: #888; }
+
+.pay-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.pay-btn:hover { background: var(--green-light); }
+.pay-btn:active { transform: scale(0.98); }
+.pay-btn:disabled { background: #aaa; cursor: not-allowed; }
+
+.checkout-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--lime);
+  color: var(--green);
+  border: none;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.checkout-btn:hover { background: #c5f060; }
+
+/* ── STATUS MODAL ── */
+.status-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.status-modal.open { display: flex; }
+.status-box {
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px 32px;
+  text-align: center;
+  max-width: 320px;
+  width: 100%;
+  animation: popIn 0.3s ease;
+}
+.status-icon { font-size: 56px; margin-bottom: 16px; }
+.status-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+.status-msg { color: #888; font-size: 14px; line-height: 1.6; }
+.status-close {
+  margin-top: 24px;
+  width: 100%;
+  padding: 13px;
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e0e0e0;
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+footer {
+  background: var(--green);
+  color: rgba(255,255,255,0.6);
+  text-align: center;
+  padding: 24px;
+  font-size: 13px;
+}
+footer strong { color: var(--lime); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Fresh<span>Ke</span></div>
+  <button class="cart-btn" onclick="toggleCart()">
+    🛒 Cart <span class="cart-count" id="cartCount">0</span>
+  </button>
+</header>
+
+<section class="hero">
+  <h1>Farm Fresh<br><em>Fruits</em> Delivered</h1>
+  <p>Straight from Kenyan farms to your door</p>
+  <div class="delivery-badge">🚚 Same-day delivery in Nairobi</div>
+</section>
+
+<h2 class="section-title" style="text-align:center">Today's Fresh Picks</h2>
+
+<div class="products" id="productsGrid"></div>
+
+<footer>
+  Powered by <strong>M-Pesa</strong> &amp; <strong>Airtel Money</strong> — Secure mobile payments 🇰🇪
+</footer>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<!-- Cart Drawer -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="drawer-header">
+    <h2>Your Cart 🛒</h2>
+    <button class="close-btn" onclick="closeCart()">✕</button>
+  </div>
+
+  <div class="cart-items" id="cartItems">
+    <div class="empty-cart">
+      <span class="big">🍃</span>
+      Your cart is empty.<br>Add some fresh fruits!
+    </div>
+  </div>
+
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">KES 0</span>
+    </div>
+
+    <!-- Cart view buttons -->
+    <div id="cartActions">
+      <button class="checkout-btn" onclick="showCheckout()">Proceed to Checkout →</button>
+    </div>
+
+    <!-- Checkout form -->
+    <div class="checkout-section" id="checkoutSection">
+      <div class="checkout-title">📦 Delivery & Payment</div>
+
+      <div class="input-group">
+        <label>Full Name</label>
+        <input type="text" id="custName" placeholder="e.g. Amina Wanjiku">
+      </div>
+
+      <div class="input-group">
+        <label>Delivery Address</label>
+        <input type="text" id="custAddress" placeholder="e.g. Westlands, Nairobi">
+      </div>
+
+      <div class="input-group">
+        <label>Mobile Number (for payment)</label>
+        <input type="tel" id="custPhone" placeholder="07XXXXXXXX or 01XXXXXXXX">
+      </div>
+
+      <div>
+        <label style="font-size:12px;font-weight:500;color:#888;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:8px">Pay With</label>
+        <div class="pay-methods">
+          <div class="pay-method selected" id="mpesaMethod" onclick="selectMethod('mpesa')">
+            <div class="method-logo mpesa">M-PESA</div>
+            <div class="method-name">Safaricom</div>
+          </div>
+          <div class="pay-method" id="airtelMethod" onclick="selectMethod('airtel')">
+            <div class="method-logo airtel">AIRTEL</div>
+            <div class="method-name">Airtel Money</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="pay-btn" id="payBtn" onclick="initiatePayment()">
+        📱 Send STK Push
+      </button>
+
+      <button style="background:none;border:none;color:#888;font-size:13px;cursor:pointer;text-align:center" onclick="hideCheckout()">← Back to cart</button>
+    </div>
+  </div>
+</div>
+
+<!-- Status Modal -->
+<div class="status-modal" id="statusModal">
+  <div class="status-box" id="statusBox">
+    <div class="spinner" id="statusSpinner"></div>
+    <div class="status-title" id="statusTitle">Processing...</div>
+    <div class="status-msg" id="statusMsg">Sending payment request to your phone.</div>
+    <button class="status-close" id="statusClose" style="display:none" onclick="closeStatus()">Done</button>
+  </div>
+</div>
+
+<script>
+// ── PRODUCTS DATA ──
+const PRODUCTS = [
+  { id:1, name:'Mango',       unit:'per kg',  price:120, emoji:'🥭' },
+  { id:2, name:'Avocado',     unit:'each',    price:35,  emoji:'🥑' },
+  { id:3, name:'Banana',      unit:'per bunch',price:80, emoji:'🍌' },
+  { id:4, name:'Watermelon',  unit:'per piece',price:200,emoji:'🍉' },
+  { id:5, name:'Pineapple',   unit:'each',    price:150, emoji:'🍍' },
+  { id:6, name:'Papaya',      unit:'each',    price:90,  emoji:'🧡' },
+  { id:7, name:'Passion Fruit',unit:'per 12', price:100, emoji:'💛' },
+  { id:8, name:'Strawberry',  unit:'per punnet',price:180,emoji:'🍓'},
+  { id:9, name:'Orange',      unit:'per 6',   price:60,  emoji:'🍊' },
+  { id:10,name:'Lemon',       unit:'per 6',   price:50,  emoji:'🍋' },
+];
+
+let cart = {};
+let selectedMethod = 'mpesa';
+
+// ── RENDER PRODUCTS ──
+const grid = document.getElementById('productsGrid');
+PRODUCTS.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'product-card';
+  card.style.animationDelay = `${i * 0.05}s`;
+  card.innerHTML = `
+    <div class="product-emoji">${p.emoji}</div>
+    <div class="product-info">
+      <div class="product-name">${p.name}</div>
+      <div class="product-unit">${p.unit}</div>
+      <div class="product-footer">
+        <div class="product-price">KES ${p.price}</div>
+        <button class="add-btn" onclick="addToCart(${p.id})">+</button>
+      </div>
+    </div>`;
+  grid.appendChild(card);
+});
+
+// ── CART LOGIC ──
+function addToCart(id) {
+  cart[id] = (cart[id] || 0) + 1;
+  updateCart();
+  // Bounce the cart button
+  const btn = document.querySelector('.cart-btn');
+  btn.style.transform = 'scale(1.2)';
+  setTimeout(() => btn.style.transform = '', 200);
+}
+
+function updateCart() {
+  const total = Object.entries(cart).reduce((s, [id, qty]) => {
+    return s + PRODUCTS.find(p=>p.id==id).price * qty;
+  }, 0);
+  const count = Object.values(cart).reduce((s,q)=>s+q,0);
+
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('cartTotal').textContent = `KES ${total.toLocaleString()}`;
+
+  const itemsEl = document.getElementById('cartItems');
+  if (!count) {
+    itemsEl.innerHTML = `<div class="empty-cart"><span class="big">🍃</span>Your cart is empty.<br>Add some fresh fruits!</div>`;
+    return;
+  }
+  itemsEl.innerHTML = Object.entries(cart).map(([id, qty]) => {
+    const p = PRODUCTS.find(x=>x.id==id);
+    return `<div class="cart-item">
+      <span class="cart-item-emoji">${p.emoji}</span>
+      <div>
+        <div class="cart-item-name">${p.name}</div>
+        <div class="cart-item-price">KES ${p.price} × ${qty} = KES ${p.price*qty}</div>
+      </div>
+      <div class="cart-item-controls">
+        <button class="qty-btn" onclick="changeQty(${id},-1)">−</button>
+        <span class="qty-num">${qty}</span>
+        <button class="qty-btn" onclick="changeQty(${id},1)">+</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function changeQty(id, delta) {
+  cart[id] = (cart[id] || 0) + delta;
+  if (cart[id] <= 0) delete cart[id];
+  updateCart();
+}
+
+function toggleCart() {
+  document.getElementById('cartDrawer').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  hideCheckout();
+}
+
+function showCheckout() {
+  if (!Object.keys(cart).length) return;
+  document.getElementById('cartActions').style.display = 'none';
+  document.getElementById('checkoutSection').classList.add('visible');
+}
+function hideCheckout() {
+  document.getElementById('cartActions').style.display = '';
+  document.getElementById('checkoutSection').classList.remove('visible');
+}
+
+function selectMethod(method) {
+  selectedMethod = method;
+  document.getElementById('mpesaMethod').classList.toggle('selected', method==='mpesa');
+  document.getElementById('airtelMethod').classList.toggle('selected', method==='airtel');
+}
+
+// ── PAYMENT ──
+async function initiatePayment() {
+  const name    = document.getElementById('custName').value.trim();
+  const address = document.getElementById('custAddress').value.trim();
+  const phone   = document.getElementById('custPhone').value.trim();
+
+  if (!name || !address || !phone) {
+    alert('Please fill in all fields.'); return;
+  }
+  if (!/^(07|01)\d{8}$/.test(phone)) {
+    alert('Enter a valid Kenyan mobile number (07XXXXXXXX or 01XXXXXXXX)'); return;
+  }
+
+  const total = Object.entries(cart).reduce((s,[id,qty])=>s+PRODUCTS.find(p=>p.id==id).price*qty,0);
+  const items = Object.entries(cart).map(([id,qty])=>{
+    const p=PRODUCTS.find(x=>x.id==id);
+    return {name:p.name,qty,price:p.price};
+  });
+
+  showStatus('loading', 'Sending to your phone…',
+    `Check your phone for a ${selectedMethod==='mpesa'?'M-Pesa':'Airtel Money'} payment prompt of KES ${total.toLocaleString()}.`);
+
+  try {
+    // ⬇️ REPLACE this URL with your deployed backend
+    const BACKEND_URL = 'https://YOUR-BACKEND.onrender.com';
+
+    const res = await fetch(`${BACKEND_URL}/pay`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, address, phone, total, items, method: selectedMethod })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      showStatus('success', 'Request Sent! 📱',
+        `A payment prompt of KES ${total.toLocaleString()} has been sent to ${phone}. Enter your PIN to confirm.`);
+      cart = {};
+      updateCart();
+    } else {
+      showStatus('error', 'Payment Failed', data.message || 'Please try again.');
+    }
+  } catch (e) {
+    // Demo mode when backend not connected
+    showStatus('demo', 'Demo Mode 🔧',
+      `Backend not connected yet. In production, KES ${total.toLocaleString()} would be sent to ${phone} via ${selectedMethod==='mpesa'?'M-Pesa':'Airtel Money'}.`);
+  }
+}
+
+function showStatus(type, title, msg) {
+  const modal = document.getElementById('statusModal');
+  const spinner = document.getElementById('statusSpinner');
+  const titleEl = document.getElementById('statusTitle');
+  const msgEl   = document.getElementById('statusMsg');
+  const closeEl = document.getElementById('statusClose');
+
+  modal.classList.add('open');
+  titleEl.textContent = title;
+  msgEl.textContent   = msg;
+
+  if (type === 'loading') {
+    spinner.style.display = 'block';
+    closeEl.style.display = 'none';
+  } else {
+    spinner.style.display = 'none';
+    closeEl.style.display = 'block';
+    const icons = { success:'✅', error:'❌', demo:'🔧' };
+    spinner.insertAdjacentHTML('afterend', `<div class="status-icon" id="tmpIcon">${icons[type]||'ℹ️'}</div>`);
+  }
+}
+
+function closeStatus() {
+  document.getElementById('statusModal').classList.remove('open');
+  document.getElementById('tmpIcon')?.remove();
+  document.getElementById('statusSpinner').style.display = 'block';
+  document.getElementById('statusClose').style.display = 'none';
+  closeCart();
+}
+</script>
+</body>
+</html>
