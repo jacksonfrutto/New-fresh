@@ -17,3 +17,6 @@
     "nodemon": "^3.0.2"
   }
 }
+function generatePIN() {
+  return Math.floor(100000 + Math.random() * 900000); // 6-digit PIN
+}
