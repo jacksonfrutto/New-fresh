@@ -5,7 +5,7 @@
       "name": "Apple",
       "emoji": "🍎",
       "color": "#FF6B6B",
-      "price": "$2.99",
+      "price": "388.70 KES",
       "description": "Fresh red apples, crispy and sweet",
       "inStock": true
     },
@@ -14,7 +14,7 @@
       "name": "Banana",
       "emoji": "🍌",
       "color": "#FFD93D",
-      "price": "$1.99",
+      "price": "258.70 KES",
       "description": "Ripe yellow bananas, perfect for smoothies",
       "inStock": true
     },
@@ -23,7 +23,7 @@
       "name": "Orange",
       "emoji": "🍊",
       "color": "#FFA500",
-      "price": "$3.49",
+      "price": "453.70 KES",
       "description": "Juicy oranges, full of vitamin C",
       "inStock": true
     },
@@ -32,7 +32,7 @@
       "name": "Strawberry",
       "emoji": "🍓",
       "color": "#E74C3C",
-      "price": "$4.99",
+      "price": "648.70 KES",
       "description": "Fresh strawberries, sweet and delicious",
       "inStock": true
     },
@@ -41,7 +41,7 @@
       "name": "Watermelon",
       "emoji": "🍉",
       "color": "#27AE60",
-      "price": "$5.99",
+      "price": "778.70 KES",
       "description": "Refreshing watermelons, perfect for summer",
       "inStock": false
     },
@@ -50,7 +50,7 @@
       "name": "Grape",
       "emoji": "🍇",
       "color": "#8E44AD",
-      "price": "$3.99",
+      "price": "518.70 KES",
       "description": "Fresh purple grapes, naturally sweet",
       "inStock": true
     }
