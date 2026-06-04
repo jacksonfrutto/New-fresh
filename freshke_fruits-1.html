@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshKe - Fresh Fruits</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fdf9f0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #2d7a2d;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .cart {
+            background-color: #c4f28f;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+        .fruit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .fruit-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+        .fruit-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+        .fruit-card h3 {
+            margin: 10px 0 5px 0;
+        }
+        .fruit-card p {
+            margin: 5px 0;
+            font-weight: bold;
+            color: #2d7a2d;
+        }
+        .fruit-card button {
+            background-color: #2d7a2d;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .fruit-card button:hover {
+            background-color: #1c4f1c;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>FreshKe</h1>
+    <div class="cart">Cart (0)</div>
+</header>
+
+<section class="fruit-grid" id="fruitGrid">
+    <!-- Fruits will be dynamically inserted here -->
+</section>
+
+<script>
+    const fruits = [
+        { name: "Mango", price: 150, unit: "each", img: "https://i.imgur.com/1nG5B2g.png" },
+        { name: "Avocado", price: 35, unit: "each", img: "https://i.imgur.com/8Mjd6iP.png" },
+        { name: "Banana", price: 80, unit: "per bunch", img: "https://i.imgur.com/6bY7nHx.png" },
+        { name: "Watermelon", price: 200, unit: "per piece", img: "https://i.imgur.com/lJw7K2v.png" },
+        { name: "Apple", price: 120, unit: "each", img: "https://i.imgur.com/9gY1V4n.png" },
+        { name: "Pineapple", price: 250, unit: "each", img: "https://i.imgur.com/WRtW4lL.png" }
+    ];
+
+    const cart = { count: 0 };
+
+    const fruitGrid = document.getElementById('fruitGrid');
+
+    function updateCart() {
+        document.querySelector('.cart').innerText = `Cart (${cart.count})`;
+    }
+
+    function addFruitCard(fruit) {
+        const card = document.createElement('div');
+        card.className = 'fruit-card';
+        card.innerHTML = `
+            <img src="${fruit.img}" alt="${fruit.name}">
+            <h3>${fruit.name}</h3>
+            <p>KES ${fruit.price} / ${fruit.unit}</p>
+            <button>Add to Cart</button>
+        `;
+        card.querySelector('button').addEventListener('click', () => {
+            cart.count++;
+            updateCart();
+        });
+        fruitGrid.appendChild(card);
+    }
+
+    fruits.forEach(addFruitCard);
+</script>
+
+</body>
+</html>
